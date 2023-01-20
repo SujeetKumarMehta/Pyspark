@@ -38,11 +38,9 @@
 -- MAGIC %md
 -- MAGIC 
 -- MAGIC 
--- MAGIC ## Recreate the History of your Bean Collection
+-- MAGIC ## Create History of Bean Collection
 -- MAGIC 
--- MAGIC This lab picks up where the last lab left off. The cell below condenses all the operations from the last lab into a single cell (other than the final **`DROP TABLE`** statement).
--- MAGIC 
--- MAGIC For quick reference, the schema of the **`beans`** table created is:
+-- MAGIC The cell below includes various table operations, resulting in the following schema for the **`beans`** table:
 -- MAGIC 
 -- MAGIC | Field Name | Field type |
 -- MAGIC | --- | --- |
@@ -394,7 +392,7 @@ SELECT * FROM beans
 -- COMMAND ----------
 
 -- MAGIC %md-sandbox
--- MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
+-- MAGIC &copy; 2023 Databricks, Inc. All rights reserved.<br/>
 -- MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 -- MAGIC <br/>
 -- MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>

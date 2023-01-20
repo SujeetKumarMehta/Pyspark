@@ -48,8 +48,6 @@
 -- MAGIC 
 -- MAGIC ## Creating a Delta Table with History
 -- MAGIC 
--- MAGIC The cell below condenses all the transactions from the previous lesson into a single cell. (Except for the **`DROP TABLE`**!)
--- MAGIC 
 -- MAGIC As you're waiting for this query to run, see if you can identify the total number of transactions being executed.
 
 -- COMMAND ----------
@@ -322,7 +320,8 @@ RESTORE TABLE students TO VERSION AS OF 8
 -- MAGIC 
 -- MAGIC ## Cleaning Up Stale Files
 -- MAGIC 
--- MAGIC Databricks will automatically clean up stale files in Delta Lake tables.
+-- MAGIC Databricks will automatically clean up stale log files (> 30 days by default) in Delta Lake tables.
+-- MAGIC Each time a checkpoint is written, Databricks automatically cleans up log entries older than this retention interval.
 -- MAGIC 
 -- MAGIC While Delta Lake versioning and time travel are great for querying recent versions and rolling back queries, keeping the data files for all versions of large production tables around indefinitely is very expensive (and can lead to compliance issues if PII is present).
 -- MAGIC 
@@ -391,7 +390,7 @@ VACUUM students RETAIN 0 HOURS
 -- COMMAND ----------
 
 -- MAGIC %md-sandbox
--- MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
+-- MAGIC &copy; 2023 Databricks, Inc. All rights reserved.<br/>
 -- MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 -- MAGIC <br/>
 -- MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>

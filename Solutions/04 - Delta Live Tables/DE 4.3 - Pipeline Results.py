@@ -75,7 +75,7 @@
 # MAGIC %md
 # MAGIC Note the **`customers_silver`** table correctly represents the current active state of our Type 1 table with changes applied, but does not include the additional fields seen in the schema shown in the DLT UI: **__Timestamp**, **__DeleteVersion**, and **__UpsertVersion**.
 # MAGIC 
-# MAGIC This is because our **customers_silver** table is actually implemented as a view against a hidden table named **__apply_changes_storage_customers_silver.
+# MAGIC This is because our **customers_silver** table is actually implemented as a view against a hidden table named **__apply_changes_storage_customers_silver**.
 # MAGIC 
 # MAGIC We can see this if we run **`DESCRIBE EXTENDED`**.
 
@@ -147,7 +147,7 @@ display(files)
 # COMMAND ----------
 
 # MAGIC %md-sandbox
-# MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
+# MAGIC &copy; 2023 Databricks, Inc. All rights reserved.<br/>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 # MAGIC <br/>
 # MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>

@@ -19,7 +19,8 @@ class JobConfig():
 @DBAcademyHelper.monkey_patch
 def get_job_config(self):
     
-    job_name = f"{DA.unique_name}: Example Job"
+    unique_name = DA.unique_name(sep="-")
+    job_name = f"{unique_name}: Example Job"
     
     parts = dbutils.entry_point.getDbutils().notebook().getContext().notebookPath().getOrElse(None).split("/")[:-1]
     notebook = "/".join(parts) + "/DE 5.1.2 - Reset"
@@ -362,7 +363,8 @@ def get_pipeline_config(self):
     path = dbutils.entry_point.getDbutils().notebook().getContext().notebookPath().getOrElse(None)
     notebook = "/".join(path.split("/")[:-1]) + "/DE 5.1.3 - DLT Job"
     
-    pipeline_name = f"{DA.unique_name}: Pipeline Demo w/Job"
+    unique_name = DA.unique_name(sep="-")
+    pipeline_name = f"{unique_name}: Pipeline Demo w/Job"
     
     return PipelineConfig(pipeline_name, notebook)
 

@@ -69,7 +69,7 @@
 -- MAGIC 
 -- MAGIC ## Streaming Ingestion with Auto Loader
 -- MAGIC 
--- MAGIC Databricks has developed the Auto Loader functionality to provide optimized execution for incrementally loading data from cloud object storage into Delta Lake. Using Auto Loader with DLT is simple: just configure a source data directory, provide a few configuration settings, and write a query against your source data. Auto Loader will automatically detect new data files as they land in the source cloud object storage location, incrementally processing new records without the need to perform expensive scans and recomputing results for infinitely growing datasets.
+-- MAGIC Databricks has developed the [Auto Loader](https://docs.databricks.com/ingestion/auto-loader/index.html) functionality to provide optimized execution for incrementally loading data from cloud object storage into Delta Lake. Using Auto Loader with DLT is simple: just configure a source data directory, provide a few configuration settings, and write a query against your source data. Auto Loader will automatically detect new data files as they land in the source cloud object storage location, incrementally processing new records without the need to perform expensive scans and recomputing results for infinitely growing datasets.
 -- MAGIC 
 -- MAGIC The **`cloud_files()`** method enables Auto Loader to be used natively with SQL. This method takes the following positional parameters:
 -- MAGIC * The source location, which should be cloud-based object storage
@@ -181,7 +181,7 @@ GROUP BY date(order_timestamp)
 -- COMMAND ----------
 
 -- MAGIC %md-sandbox
--- MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
+-- MAGIC &copy; 2023 Databricks, Inc. All rights reserved.<br/>
 -- MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 -- MAGIC <br/>
 -- MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>

@@ -41,7 +41,6 @@
 -- MAGIC 
 -- MAGIC ## When Direct Queries Don't Work 
 -- MAGIC 
--- MAGIC While views can be used to persist direct queries against files between sessions, this approach has limited utility.
 -- MAGIC 
 -- MAGIC CSV files are one of the most common file formats, but a direct query against these files rarely returns the desired results.
 
@@ -286,7 +285,7 @@ DESCRIBE EXTENDED users_jdbc
 -- MAGIC %md
 -- MAGIC 
 -- MAGIC 
--- MAGIC While the table is listed as **`MANAGED`**, listing the contents of the specified location confirms that no data is being persisted locally.
+-- MAGIC Listing the contents of the specified location confirms that no data is being persisted locally.
 
 -- COMMAND ----------
 
@@ -327,7 +326,7 @@ DESCRIBE EXTENDED users_jdbc
 -- COMMAND ----------
 
 -- MAGIC %md-sandbox
--- MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
+-- MAGIC &copy; 2023 Databricks, Inc. All rights reserved.<br/>
 -- MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 -- MAGIC <br/>
 -- MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>

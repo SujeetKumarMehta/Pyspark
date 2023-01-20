@@ -70,34 +70,10 @@ def get_dlt_policy(self):
     from dbacademy.dbhelper import ClustersHelper
 
     dlt_policy = DA.client.cluster_policies.get_by_name(ClustersHelper.POLICY_DLT_ONLY)
-    assert dlt_policy is not None, self.__troubleshoot_error(f"Missing the cluster policy \"{ClustersHelper.POLICY_DLT_ONLY}\".", "Workspace-Setup")
+    if dlt_policy is None:
+        dbgems.print_warning("WARNING: Policy Not Found", f"Could not find the cluster policy \"{ClustersHelper.POLICY_DLT_ONLY}\".\nPlease run the notebook Includes/Workspace-Setup to address this error.")
     
     return dlt_policy
-
-# COMMAND ----------
-
-@DBAcademyHelper.monkey_patch
-def get_pipeline_config(self, language):
-    """
-    Returns the configuration to be used by the student in configuring the pipeline.
-    """
-    base_path = dbutils.entry_point.getDbutils().notebook().getContext().notebookPath().getOrElse(None)
-    base_path = "/".join(base_path.split("/")[:-1])
-    
-    pipeline_name = f"{DA.unique_name}"
-    if DA.lesson_config.clean_name is not None: pipeline_name += f"-{DA.lesson_config.clean_name}"
-    pipeline_name += ": Example Pipeline"
-    
-    if language is None: language = dbutils.widgets.getArgument("pipeline-language", None)
-    assert language in ["SQL", "Python"], f"A valid language must be specified, found {language}"
-    
-    AB = "A" if language == "SQL" else "B"
-    return PipelineConfig(pipeline_name, self.paths.stream_source, [
-        f"{base_path}/DE 4.1{AB} - {language} Pipelines/DE 4.1.1 - Orders Pipeline",
-        f"{base_path}/DE 4.1{AB} - {language} Pipelines/DE 4.1.2 - Customers Pipeline",
-        f"{base_path}/DE 4.1{AB} - {language} Pipelines/DE 4.1.3 - Status Pipeline"
-    ])
-
 
 # COMMAND ----------
 
@@ -142,6 +118,33 @@ def print_pipeline_config(self, language):
 # COMMAND ----------
 
 @DBAcademyHelper.monkey_patch
+def get_pipeline_config(self, language):
+    """
+    Returns the configuration to be used by the student in configuring the pipeline.
+    """
+    base_path = dbutils.entry_point.getDbutils().notebook().getContext().notebookPath().getOrElse(None)
+    base_path = "/".join(base_path.split("/")[:-1])
+    
+    unique_name = DA.unique_name(sep="-")
+    pipeline_name = f"{unique_name}"
+    
+    if DA.lesson_config.clean_name is not None: pipeline_name += f"-{DA.lesson_config.clean_name}"
+    pipeline_name += ": Example Pipeline"
+    
+    if language is None: language = dbutils.widgets.getArgument("pipeline-language", None)
+    assert language in ["SQL", "Python"], f"A valid language must be specified, found {language}"
+    
+    AB = "A" if language == "SQL" else "B"
+    return PipelineConfig(pipeline_name, self.paths.stream_source, [
+        f"{base_path}/DE 4.1{AB} - {language} Pipelines/DE 4.1.1 - Orders Pipeline",
+        f"{base_path}/DE 4.1{AB} - {language} Pipelines/DE 4.1.2 - Customers Pipeline",
+        f"{base_path}/DE 4.1{AB} - {language} Pipelines/DE 4.1.3 - Status Pipeline"
+    ])
+
+
+# COMMAND ----------
+
+@DBAcademyHelper.monkey_patch
 def create_pipeline(self, language):
     "Provided by DBAcademy, this function creates the prescribed pipline"
     
@@ -150,6 +153,10 @@ def create_pipeline(self, language):
     # Delete the existing pipeline if it exists
     self.client.pipelines().delete_by_name(config.pipeline_name)
 
+    policy = self.get_dlt_policy()
+    if policy is None: cluster = [{"num_workers": 0}]
+    else:              cluster = [{"num_workers": 0, "policy_id": self.get_dlt_policy().get("policy_id")}]
+    
     # Create the new pipeline
     response = self.client.pipelines().create(
         name = config.pipeline_name, 
@@ -161,10 +168,7 @@ def create_pipeline(self, language):
             "source": config.source,
             "spark.master": "local[*]",
         },
-        clusters=[{ 
-            "num_workers": 0,
-            "policy_id": self.get_dlt_policy().get("policy_id")
-        }]
+        clusters=cluster
     )
     self.pipeline_id = response.get("pipeline_id")
     print(f"Created the pipeline \"{config.pipeline_name}\" ({self.pipeline_id})")
@@ -261,8 +265,13 @@ def validate_pipeline_config(self, pipeline_language):
     def test_cluster():
         cluster = spec.get("clusters")[0]
         policy_id = cluster.get("policy_id")
-        policy_name = None if policy_id is None else self.client.cluster_policies.get_by_id(policy_id).get("name")
-        return policy_id == self.get_dlt_policy().get("policy_id")
+        if policy_id is None:
+            dbgems.print_warning("WARNING: Policy Not Set", f"Expected the policy to be set to \"{ClustersHelper.POLICY_DLT_ONLY}\".")
+        else:
+            policy_name = self.client.cluster_policies.get_by_id(policy_id).get("name")
+            if policy_id != self.get_dlt_policy().get("policy_id"):
+                dbgems.print_warning("WARNING: Incorrect Policy", f"Expected the policy to be set to \"{ClustersHelper.POLICY_DLT_ONLY}\", found \"{policy_name}\".")
+        return True
         
     suite.test(test_function=test_cluster, actual_value=None, description=f"The cluster policy should be <b>\"{ClustersHelper.POLICY_DLT_ONLY}\"</b>.")
     
@@ -270,7 +279,7 @@ def validate_pipeline_config(self, pipeline_language):
                       description=f"The number of spark workers should be <b>0</b>.", 
                       hint=f"Found [[ACTUAL_VALUE]] workers.")
 
-    suite.test_true(lambda: spec.get("development"), 
+    suite.test_true(lambda: spec.get("development") != self.is_smoke_test(), 
                     description=f"The pipeline mode should be set to \"<b>Development</b>\".")
     
     suite.test(test_function = lambda: {spec.get("channel") is None or spec.get("channel").upper() == "CURRENT"}, 

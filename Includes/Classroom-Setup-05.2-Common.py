@@ -5,7 +5,8 @@ lesson_name = "jobs_lab"
 
 @DBAcademyHelper.monkey_patch
 def get_pipeline_name(self):
-    return f"{DA.unique_name}: Pipeline Lab w/Job"
+    unique_name = DA.unique_name("-")
+    return f"{unique_name}: Pipeline Lab w/Job"
 
 # COMMAND ----------
 
@@ -76,7 +77,8 @@ class JobConfig():
 @DBAcademyHelper.monkey_patch
 def get_job_config(self):
     
-    job_name = f"{DA.unique_name}: Jobs Lab"
+    unique_name = DA.unique_name("-")
+    job_name = f"{unique_name}: Jobs Lab"
     
     notebook_1 = dbutils.entry_point.getDbutils().notebook().getContext().notebookPath().getOrElse(None)
     notebook_1 = "/".join(notebook_1.split("/")[:-1]) + "/DE 5.2.2L - Batch Job"
@@ -156,8 +158,8 @@ def create_job(self):
     params = {
         "name": job_config.job_name,
         "tags": {
-            "dbacademy.course": self.course_name,
-            "dbacademy.source": self.course_name
+            "dbacademy.course": self.course_config.course_name,
+            "dbacademy.source": self.course_config.course_name
         },
         "email_notifications": {},
         "timeout_seconds": 7200,

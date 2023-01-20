@@ -30,83 +30,61 @@
 # COMMAND ----------
 
 # MAGIC %md ## Generate Pipeline Configuration
-# MAGIC The configuration of your pipeline includes parameters unique to a given user.
+# MAGIC Configuring this pipeline will require parameters unique to a given user.
 # MAGIC 
-# MAGIC You will need to specify which language to use by uncommenting the appropriate line.
+# MAGIC In the code cell below, specify which language to use by uncommenting the appropriate line.
 # MAGIC 
-# MAGIC Run the following cell to print out the values used to configure your pipeline in subsequent steps.
+# MAGIC Then, run the cell to print out values you'll use to configure your pipeline in subsequent steps.
 
 # COMMAND ----------
 
-#pipeline_language = "SQL"
-pipeline_language = "Python"
+pipeline_language = "SQL"
+#pipeline_language = "Python"
 
 DA.print_pipeline_config(pipeline_language)
 
 # COMMAND ----------
 
-# MAGIC %md <img src="https://files.training.databricks.com/images/icon_hint_24.png"> **HINT:** You will want to refer back to the paths above for Notebook #2 and Notebook #3 in later lessons.
+# MAGIC %md
+# MAGIC In this lesson, we deploy a pipeline with a single notebook, specified as Notebook #1 in the cell output above. 
+# MAGIC 
+# MAGIC <img src="https://files.training.databricks.com/images/icon_hint_24.png"> **HINT:**  You'll want to refer back to the paths above when we add Notebook #2 and #3 to the pipeline in later lessons.
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## Create and configure a pipeline
+# MAGIC ## Create and Configure a Pipeline
 # MAGIC 
-# MAGIC In this section you will create a pipeline using a single notebook provided with the courseware.
+# MAGIC Let's start by creating a pipeline with a single notebook (Notebook #1).
 # MAGIC 
-# MAGIC We'll explore the contents of this notebook in the following lesson.
+# MAGIC Steps:
+# MAGIC 1. Click the **Workflows** button on the sidebar, click the **Delta Live Tables** tab, and click **Create Pipeline**. 
+# MAGIC 2. Configure the pipeline as specified below. You'll need the values provided in the cell output above for this step.
 # MAGIC 
-# MAGIC We will later add Notebooks #2 & #3 to the pipeline but for now, let's focus on just Notebook #1:
+# MAGIC | Setting | Instructions |
+# MAGIC |--|--|
+# MAGIC | Pipeline name | Enter the **Pipeline Name** provided above |
+# MAGIC | Product edition | Choose **Advanced** |
+# MAGIC | Pipeline mode | Choose **Triggered** |
+# MAGIC | Cluster policy | Choose the **Policy** provided above |
+# MAGIC | Notebook libraries | Use the navigator to select or enter the **Notebook # 1 Path** provided above |
+# MAGIC | Storage location | Enter the **Storage Location** provided above |
+# MAGIC | Target schema | Enter the **Target** database name provided above |
+# MAGIC | Cluster mode | Choose **Fixed size** to disable auto scaling for your cluster |
+# MAGIC | Workers | Enter **0** to use a Single Node cluster |
+# MAGIC | Photon Acceleration | Uncheck this checkbox to disable |
+# MAGIC | Configuration | Click **Advanced** to view additional settings,<br>Click **Add Configuration** to input the **Key** and **Value** for row #1 in the table below,<br>Click **Add Configuration** to input the **Key** and **Value** for row #2 in the table below |
+# MAGIC | Channel | Choose **Current** to use the current runtime version |
 # MAGIC 
-# MAGIC 1. Click the **Workflows** button in the sidebar.
-# MAGIC 1. Select the **Delta Live Tables** tab.
-# MAGIC 1. Click the **Create Pipeline** button.
-# MAGIC 1. In the field **Product edition**, select the value "**Advanced**".
-# MAGIC 1. In the field **Pipeline Name**, enter the value specified in the cell above
-# MAGIC 1. In the field **Notebook Libraries**, copy the path for Notebook #1 specified in the cell above and paste it here.
-# MAGIC     * Though this document is a standard Databricks Notebook, the syntax is specialized to DLT table declarations.
-# MAGIC     * We will be exploring the syntax in the exercise that follows.
-# MAGIC     * Notebooks #2 and #3 will be added in later lessons
-# MAGIC 1. Under **Configuration**, add two configuration parameters:
-# MAGIC    * Click **Add configuration**, set the "key" to **spark.master** and the "value" to **local[\*]**. This is so that our cluster will run as a Single Node as opposed to a more expensive multi-node cluster.
-# MAGIC    * Click **Add configuration**, set the "key" to **source** and the "value" to the value provided in the cell above. This will be used as a parameter to the pipline specifying the source of our pipeline's data stream.
-# MAGIC 1. In the field **Storage location**, enter the value specified in the cell above.
-# MAGIC     * This optional field allows the user to specify a location to store logs, tables, and other information related to pipeline execution. If not specified, DLT will automatically generate a directory.
-# MAGIC 1. Set **Pipeline Mode** to **Triggered**.
-# MAGIC     * This field specifies how the pipeline will be run.
-# MAGIC     * **Triggered** pipelines run once and then shut down until the next manual or scheduled update.
-# MAGIC     * **Continuous** pipelines run continuously, ingesting new data as it arrives.
-# MAGIC     * Choose the mode based on latency and cost requirements.
-# MAGIC 1. Disable autoscaling by unchecking **Enable autoscaling**.
-# MAGIC     * **Enable autoscaling**, **Min Workers** and **Max Workers** control the worker configuration for the underlying cluster processing the pipeline.
-# MAGIC     * Notice the DBU estimate provided, similar to that provided when configuring interactive clusters.
-# MAGIC 1. Set the number of **`workers`** to **`0`** (zero). 
-# MAGIC     * This value works in conjunction with the **spark.master** paramter defined above to configure the cluster as a Single Node cluster.
-# MAGIC 1. Check the **Use Photon Acceleration** box.
-# MAGIC 1. For **Channel**, select **Current**
-# MAGIC 1. For **Policy**, select the value provided in the cell above.
-# MAGIC     
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC Running in Local-Mode    
-# MAGIC * We need to configure the pipeline to run on a local-mode cluster.
-# MAGIC * In most deployments, we would adjust the number of workers to accomodate the scale of the pipeline.
-# MAGIC * Our datasets are really small, we are just prototyping, so we can use a Local-Mode cluster which reduces cloud costs by employing only a single VM.
+# MAGIC | Configuration | Key                 | Value                                      |
+# MAGIC | ------------- | ------------------- | ------------------------------------------ |
+# MAGIC | #1            | **`spark.master`**  | **`local[*]`**                             |
+# MAGIC | #2            | **`source`** | Enter the **source** provided above |
 # MAGIC 
-# MAGIC Local-Mode Setup:    
-# MAGIC 1. In the fields **Workers**, set the value to "**0**" (zero) - worker and driver will use the same VM.
-# MAGIC 1. Click **Add configuration** and then set the key to **spark.master** and the corresponding value to **local[*]**
+# MAGIC <br>
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"> **WARNING:** Setting works to zero and failing to configure **spark.master** will result in a failure to create your cluster as it will be waiting forever for a worker that will never be created.
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC Final Steps
-# MAGIC 1. Click the **Create** button
-# MAGIC 1. Verify that the pipeline mode is set to "**Development**"
+# MAGIC 3. Click the **Create** button.
+# MAGIC 4. Verify that the pipeline mode is set to **Development**.
 
 # COMMAND ----------
 
@@ -115,7 +93,22 @@ DA.validate_pipeline_config(pipeline_language)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## Run a pipeline
+# MAGIC #### Additional Notes on Pipeline Configuration
+# MAGIC Here are a few notes regarding the pipeline settings above:
+# MAGIC 
+# MAGIC - **Pipeline mode** - This specifies how the pipeline will be run. Choose the mode based on latency and cost requirements.
+# MAGIC   - `Triggered` pipelines run once and then shut down until the next manual or scheduled update.
+# MAGIC   - `Continuous` pipelines run continuously, ingesting new data as it arrives.
+# MAGIC - **Notebook libraries** - Even though this document is a standard Databricks Notebook, the SQL syntax is specialized to DLT table declarations. We will be exploring the syntax in the exercise that follows.
+# MAGIC - **Storage location** - This optional field allows the user to specify a location to store logs, tables, and other information related to pipeline execution. If not specified, DLT will automatically generate a directory.
+# MAGIC - **Target** - If this optional field is not specified, tables will not be registered to a metastore, but will still be available in the DBFS. See <a href="https://docs.databricks.com/data-engineering/delta-live-tables/delta-live-tables-user-guide.html#publish-tables" target="_blank">documentation</a> for more information on this option.
+# MAGIC - **Cluster mode**, **Min Workers**, **Max Workers** - These fields control the worker configuration for the underlying cluster processing the pipeline. Here, we set the number of workers to 0. This works in conjunction with the **spark.master** parameter defined above to configure the cluster as a Single Node cluster.
+# MAGIC - **source** - These keys are caps sensitive. Make sure you've got all lower case letters for the word "source"!
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Run a Pipeline
 # MAGIC 
 # MAGIC With a pipeline created, you will now run the pipeline.
 # MAGIC 
@@ -127,7 +120,7 @@ DA.validate_pipeline_config(pipeline_language)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## Exploring the DAG
+# MAGIC ## Explore the DAG
 # MAGIC 
 # MAGIC As the pipeline completes, the execution flow is graphed. 
 # MAGIC 
@@ -160,7 +153,7 @@ DA.dlt_data_factory.load()
 # COMMAND ----------
 
 # MAGIC %md-sandbox
-# MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
+# MAGIC &copy; 2023 Databricks, Inc. All rights reserved.<br/>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 # MAGIC <br/>
 # MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>

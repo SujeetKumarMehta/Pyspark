@@ -62,7 +62,8 @@ SELECT *, sale_announcement(name, price) AS message FROM item_lookup
 -- MAGIC SQL user-defined functions:
 -- MAGIC - Persist between execution environments (which can include notebooks, DBSQL queries, and jobs).
 -- MAGIC - Exist as objects in the metastore and are governed by the same Table ACLs as databases, tables, or views.
--- MAGIC - Require **`USAGE`** and **`SELECT`** permissions to use the SQL UDF
+-- MAGIC - To **create** a SQL UDF, you need **`USE CATALOG`** on the catalog, and **`USE SCHEMA`** and **`CREATE FUNCTION`** on the schema.
+-- MAGIC - To **use** a SQL UDF, you need **`USE CATALOG`** on the catalog, **`USE SCHEMA`** on the schema, and **`EXECUTE`** on the function.
 -- MAGIC 
 -- MAGIC We can use **`DESCRIBE FUNCTION`** to see where a function was registered and basic information about expected inputs and what is returned (and even more information with **`DESCRIBE FUNCTION EXTENDED`**).
 
@@ -122,7 +123,7 @@ SELECT *, item_preference(name, price) FROM item_lookup
 -- COMMAND ----------
 
 -- MAGIC %md-sandbox
--- MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
+-- MAGIC &copy; 2023 Databricks, Inc. All rights reserved.<br/>
 -- MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 -- MAGIC <br/>
 -- MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>

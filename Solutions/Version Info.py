@@ -11,8 +11,8 @@
 # MAGIC # Project Information
 # MAGIC 
 # MAGIC * Name: **Data Engineer Learning Path**
-# MAGIC * Version:  **1.0.2**
-# MAGIC * Built On: **Nov 4, 2022 at 22:07:03 UTC**
+# MAGIC * Version:  **1.1.0**
+# MAGIC * Built On: **Jan 20, 2023 at 03:42:04 UTC**
 
 # COMMAND ----------
 
@@ -109,7 +109,7 @@
 # COMMAND ----------
 
 # MAGIC %md-sandbox
-# MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
+# MAGIC &copy; 2023 Databricks, Inc. All rights reserved.<br/>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 # MAGIC <br/>
 # MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>

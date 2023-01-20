@@ -13,7 +13,17 @@ def __validate_libraries():
 
 def __install_libraries():
     global pip_command
-    version = spark.conf.get("dbacademy.library.version", "v2.0.3")
+    
+    specified_version = f"v3.0.23"
+    key = "dbacademy.library.version"
+    version = spark.conf.get(key, specified_version)
+
+    if specified_version != version:
+        print("** Dependency Version Overridden *******************************************************************")
+        print(f"* This course was built for {specified_version} of the DBAcademy Library, but it is being overridden via the Spark")
+        print(f"* configuration variable \"{key}\". The use of version v3.0.23 is not advised as we")
+        print(f"* cannot guarantee compatibility with this version of the course.")
+        print("****************************************************************************************************")
 
     try:
         from dbacademy import dbgems  
@@ -61,7 +71,7 @@ from dbacademy.dbhelper import DBAcademyHelper, Paths, CourseConfig, LessonConfi
 course_config = CourseConfig(course_code = "delp",
                              course_name = "data-engineer-learning-path",
                              data_source_name = "data-engineer-learning-path",
-                             data_source_version = "v01",
+                             data_source_version = "v02",
                              install_min_time = "2 min",
                              install_max_time = "10 min",
                              remote_files = remote_files,
@@ -75,7 +85,8 @@ lesson_config = LessonConfig(name = None,
                              create_catalog = False,
                              requires_uc = False,
                              installing_datasets = True,
-                             enable_streaming_support = False)
+                             enable_streaming_support = False,
+                             enable_ml_support = False)
 
 # COMMAND ----------
 
@@ -92,4 +103,8 @@ def clone_source_table(self, table_name, source_path, source_name=None):
         """)
     
     print(dbgems.clock_stopped(start))
+
+# COMMAND ----------
+
+ANALYSTS_ROLE_NAME = "analysts"
 

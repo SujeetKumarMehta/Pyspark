@@ -12,13 +12,10 @@
 # MAGIC ##### Objectives
 # MAGIC 1. Define a function
 # MAGIC 1. Create and apply a UDF
-# MAGIC 1. Register the UDF to use in SQL
 # MAGIC 1. Create and register a UDF with Python decorator syntax
 # MAGIC 1. Create and apply a Pandas (vectorized) UDF
 # MAGIC 
 # MAGIC ##### Methods
-# MAGIC - <a href="https://docs.databricks.com/spark/latest/spark-sql/udf-python.html" target="_blank">UDF Registration (**`spark.udf`**)</a>: **`register`**
-# MAGIC - <a href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.udf.html?highlight=udf#pyspark.sql.functions.udf" target="_blank">Built-In Functions</a>: **`udf`**
 # MAGIC - <a href="https://spark.apache.org/docs/3.1.3/api/python/reference/api/pyspark.sql.functions.udf.html" target="_blank">Python UDF Decorator</a>: **`@udf`**
 # MAGIC - <a href="https://spark.apache.org/docs/3.1.3/api/python/reference/api/pyspark.sql.functions.pandas_udf.html" target="_blank">Pandas UDF Decorator</a>: **`@pandas_udf`**
 
@@ -76,28 +73,6 @@ first_letter_udf = udf(first_letter_function)
 from pyspark.sql.functions import col
 
 display(sales_df.select(first_letter_udf(col("email"))))
-
-# COMMAND ----------
-
-# MAGIC %md ### Register UDF to use in SQL
-# MAGIC Register the UDF using **`spark.udf.register`** to also make it available for use in the SQL namespace.
-
-# COMMAND ----------
-
-sales_df.createOrReplaceTempView("sales")
-
-first_letter_udf = spark.udf.register("sql_udf", first_letter_function)
-
-# COMMAND ----------
-
-# You can still apply the UDF from Python
-display(sales_df.select(first_letter_udf(col("email"))))
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC -- You can now also apply the UDF from SQL
-# MAGIC SELECT sql_udf(email) AS first_letter FROM sales
 
 # COMMAND ----------
 
@@ -165,7 +140,7 @@ display(sales_df.select(vectorized_udf(col("email"))))
 
 # COMMAND ----------
 
-# MAGIC %md We can also register these Pandas UDFs to the SQL namespace.
+# MAGIC %md We can register these Pandas UDFs to the SQL namespace.
 
 # COMMAND ----------
 
@@ -188,7 +163,7 @@ DA.cleanup()
 # COMMAND ----------
 
 # MAGIC %md-sandbox
-# MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
+# MAGIC &copy; 2023 Databricks, Inc. All rights reserved.<br/>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 # MAGIC <br/>
 # MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>

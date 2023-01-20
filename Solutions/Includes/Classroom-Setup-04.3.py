@@ -12,7 +12,8 @@ lesson_config = LessonConfig(name = lesson_name,
                              create_catalog = False,
                              requires_uc = False,
                              installing_datasets = True,
-                             enable_streaming_support = False)
+                             enable_streaming_support = False,
+                             enable_ml_support = False)
 
 # Continues where 5.x picks up, don't remove assets
 DA = DBAcademyHelper(course_config=course_config,

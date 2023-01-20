@@ -43,7 +43,7 @@
 # MAGIC 
 # MAGIC Configurations in DLT pipelines are similar to parameters in Databricks Jobs, but are actually set as Spark configurations.
 # MAGIC 
-# MAGIC In Python, we can access these values usings **`spark.conf.get()`**.
+# MAGIC In Python, we can access these values using **`spark.conf.get()`**.
 # MAGIC 
 # MAGIC Throughout these lessons, we'll set the Python variable **`source`** early in the notebook and then use this variable as necessary in the code.
 # MAGIC 
@@ -93,7 +93,7 @@ source = spark.conf.get("source")
 # MAGIC 
 # MAGIC ## Streaming Ingestion with Auto Loader
 # MAGIC 
-# MAGIC Databricks has developed the Auto Loader functionality to provide optimized execution for incrementally loading data from cloud object storage into Delta Lake. Using Auto Loader with DLT is simple: just configure a source data directory, provide a few configuration settings, and write a query against your source data. Auto Loader will automatically detect new data files as they land in the source cloud object storage location, incrementally processing new records without the need to perform expensive scans and recomputing results for infinitely growing datasets.
+# MAGIC Databricks has developed the [Auto Loader](https://docs.databricks.com/ingestion/auto-loader/index.html) functionality to provide optimized execution for incrementally loading data from cloud object storage into Delta Lake. Using Auto Loader with DLT is simple: just configure a source data directory, provide a few configuration settings, and write a query against your source data. Auto Loader will automatically detect new data files as they land in the source cloud object storage location, incrementally processing new records without the need to perform expensive scans and recomputing results for infinitely growing datasets.
 # MAGIC 
 # MAGIC Auto Loader can be combined with Structured Streaming APIs to perform incremental data ingestion throughout Databricks by configuring the **`format("cloudFiles")`** setting. In DLT, you'll only configure settings associated with reading data, noting that the locations for schema inference and evolution will also be configured automatically if those settings are enabled.
 # MAGIC 
@@ -154,7 +154,7 @@ def orders_bronze():
 # MAGIC DLT uses simple boolean statements to allow quality enforcement checks on data. In the statement below, we:
 # MAGIC * Declare a constraint named **`valid_date`**
 # MAGIC * Define the conditional check that the field **`order_timestamp`** must contain a value greater than January 1, 2021
-# MAGIC * Instruct DLT to fail the current transaction if any records violate the constraint by using the decorator **`@dlt.expect_of_fail()`**
+# MAGIC * Instruct DLT to fail the current transaction if any records violate the constraint by using the decorator **`@dlt.expect_or_fail()`**
 # MAGIC 
 # MAGIC Each constraint can have multiple conditions, and multiple constraints can be set for a single table. In addition to failing the update, constraint violation can also automatically drop records or just record the number of violations while still processing these invalid records.
 # MAGIC 
@@ -231,7 +231,7 @@ def orders_by_date():
 # COMMAND ----------
 
 # MAGIC %md-sandbox
-# MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
+# MAGIC &copy; 2023 Databricks, Inc. All rights reserved.<br/>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 # MAGIC <br/>
 # MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>

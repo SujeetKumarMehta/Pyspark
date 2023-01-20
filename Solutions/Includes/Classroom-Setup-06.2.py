@@ -5,10 +5,11 @@
 
 lesson_config = LessonConfig(name = None,
                              create_schema = False,
-                             create_catalog = False,
+                             create_catalog = True,
                              requires_uc = True,
                              installing_datasets = True,
-                             enable_streaming_support = False)
+                             enable_streaming_support = False,
+                             enable_ml_support = False)
 
 DA = DBAcademyHelper(course_config=course_config,
                      lesson_config=lesson_config)
@@ -18,9 +19,15 @@ DA.conclude_setup()
 
 # COMMAND ----------
 
+# ANSWER
+try: DA.client.scim.groups.create(ANALYSTS_ROLE_NAME)
+except: pass # Ignoring if it already exists
+
+# COMMAND ----------
+
 current_catalog = spark.sql("SELECT current_catalog() as catalog").first()[0]
 
-DA.my_new_catalog = DA.to_catalog_name(DA.username)
+DA.my_new_catalog = DA.to_catalog_name(username=DA.username, lesson_name=None)
 spark.conf.set("DA.my_new_catalog", DA.my_new_catalog)
 spark.conf.set("da.my_new_catalog", DA.my_new_catalog)
 

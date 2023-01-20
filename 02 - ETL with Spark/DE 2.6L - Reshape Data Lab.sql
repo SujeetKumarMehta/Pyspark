@@ -95,7 +95,7 @@
 -- COMMAND ----------
 
 -- TODO
-CREATE OR REPLACE VIEW events_pivot
+CREATE OR REPLACE TEMP VIEW events_pivot
 <FILL_IN>
 ("cart", "pillows", "login", "main", "careers", "guest", "faq", "down", "warranty", "finalize", 
 "register", "shipping_info", "checkout", "mattresses", "add_item", "press", "email_coupon", 
@@ -166,7 +166,7 @@ CREATE OR REPLACE VIEW events_pivot
 -- COMMAND ----------
 
 -- TODO
-CREATE OR REPLACE VIEW clickpaths AS
+CREATE OR REPLACE TEMP VIEW clickpaths AS
 <FILL_IN>
 
 -- COMMAND ----------
@@ -208,7 +208,7 @@ CREATE OR REPLACE VIEW clickpaths AS
 -- COMMAND ----------
 
 -- MAGIC %md-sandbox
--- MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
+-- MAGIC &copy; 2023 Databricks, Inc. All rights reserved.<br/>
 -- MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 -- MAGIC <br/>
 -- MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>

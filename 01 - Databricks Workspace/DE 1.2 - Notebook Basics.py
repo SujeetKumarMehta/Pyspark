@@ -35,7 +35,7 @@
 # MAGIC 
 # MAGIC In the previous lesson, you should have either deployed a cluster or identified a cluster that an admin has configured for you to use.
 # MAGIC 
-# MAGIC At the top right corner of your screen, use the drop-down list to connect this notebook to your cluster.
+# MAGIC At the top right corner of your screen, click the cluster selector ("Connect" button) and choose a cluster from the dropdown menu. When the notebook is connected to a cluster, this button shows the name of the cluster.
 # MAGIC 
 # MAGIC **NOTE**: Deploying a cluster can take several minutes. A solid green circle will appear to the left of the cluster name once resources have been deployed. If your cluster has an empty gray circle to the left, you will need to follow instructions to <a href="https://docs.databricks.com/clusters/clusters-manage.html#start-a-cluster" target="_blank">start a cluster</a>.
 
@@ -232,7 +232,7 @@ print("Hello Python!")
 # MAGIC 
 # MAGIC With that in mind, most lessons will use variables derived from your username to organize files and schemas. 
 # MAGIC 
-# MAGIC This pattern allows us to avoid collision with other users in shared a workspace.
+# MAGIC This pattern allows us to avoid collisions with other users in a shared workspace.
 # MAGIC 
 # MAGIC The cell below uses Python to print some of those variables previously defined in this notebook's setup script:
 
@@ -314,8 +314,8 @@ display(files)
 # MAGIC ### Download a Notebook
 # MAGIC 
 # MAGIC Steps:
-# MAGIC * Click the **File** option to the right of the cluster selection at the top of the notebook
-# MAGIC * From the menu that appears, hover over **Export** and then select **Source File**
+# MAGIC * At the top left of the notebook, Click the **File** option 
+# MAGIC * From the menu that appears, hover over **Export** and then select **Source file**
 # MAGIC 
 # MAGIC The notebook will download to your personal laptop. It will be named with the current notebook name and have the file extension for the default language. You can open this notebook with any file editor and see the raw contents of Databricks notebooks.
 # MAGIC 
@@ -329,7 +329,7 @@ display(files)
 # MAGIC * Click the  ![](https://files.training.databricks.com/images/repos-icon.png) **Repos** on the left sidebar
 # MAGIC   * This should give you a preview of the parent directories for this notebook
 # MAGIC * On the left side of the directory preview around the middle of the screen, there should be a left arrow. Click this to move up in your file hierarchy.
-# MAGIC * You should see a directory called **Data Engineering with Databricks**. Click the the down arrow/chevron to bring up a menu
+# MAGIC * You should see a directory called **Data Engineer Learning Path**. Click the the down arrow/chevron to bring up a menu
 # MAGIC * From the menu, hover over **Export** and select **DBC Archive**
 # MAGIC 
 # MAGIC The DBC (Databricks Cloud) file that is downloaded contains a zipped collection of the directories and notebooks in this course. Users should not attempt to edit these DBC files locally, but they can be safely uploaded into any Databricks workspace to move or share notebook contents.
@@ -372,7 +372,7 @@ DA.cleanup()
 # COMMAND ----------
 
 # MAGIC %md-sandbox
-# MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
+# MAGIC &copy; 2023 Databricks, Inc. All rights reserved.<br/>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 # MAGIC <br/>
 # MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>

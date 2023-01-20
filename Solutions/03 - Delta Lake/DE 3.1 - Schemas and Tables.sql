@@ -45,14 +45,11 @@
 -- MAGIC 
 -- MAGIC  
 -- MAGIC ## Schemas
--- MAGIC Let's start by creating two schemas (aka databases):
--- MAGIC - One with no **`LOCATION`** specified
--- MAGIC - One with **`LOCATION`** specified 
+-- MAGIC Let's start by creating a schema (database).
 
 -- COMMAND ----------
 
 CREATE SCHEMA IF NOT EXISTS ${da.schema_name}_default_location;
-CREATE SCHEMA IF NOT EXISTS ${da.schema_name}_custom_location LOCATION '${da.paths.working_dir}/${da.schema_name}_custom_location.db';
 
 -- COMMAND ----------
 
@@ -68,31 +65,22 @@ DESCRIBE SCHEMA EXTENDED ${da.schema_name}_default_location;
 -- COMMAND ----------
 
 -- MAGIC %md
+-- MAGIC ## Managed Tables
 -- MAGIC 
+-- MAGIC We will create a **managed** table (by not specifying a path for the location).
 -- MAGIC 
--- MAGIC Note that the location of the second schema is in the directory specified after the **`LOCATION`** keyword.
-
--- COMMAND ----------
-
-DESCRIBE SCHEMA EXTENDED ${da.schema_name}_custom_location;
-
--- COMMAND ----------
-
--- MAGIC %md
+-- MAGIC We will create the table in the schema (database) we created above.
 -- MAGIC 
--- MAGIC  
--- MAGIC We will create a table in the schema with default location and insert data. 
--- MAGIC 
--- MAGIC Note that the schema must be provided because there is no data from which to infer the schema.
+-- MAGIC Note that the table schema must be defined because there is no data from which to infer the table's columns and data types
 
 -- COMMAND ----------
 
 USE ${da.schema_name}_default_location;
 
-CREATE OR REPLACE TABLE managed_table_in_db_with_default_location (width INT, length INT, height INT);
-INSERT INTO managed_table_in_db_with_default_location 
+CREATE OR REPLACE TABLE managed_table (width INT, length INT, height INT);
+INSERT INTO managed_table 
 VALUES (3, 2, 1);
-SELECT * FROM managed_table_in_db_with_default_location;
+SELECT * FROM managed_table;
 
 -- COMMAND ----------
 
@@ -103,22 +91,21 @@ SELECT * FROM managed_table_in_db_with_default_location;
 
 -- COMMAND ----------
 
-DESCRIBE DETAIL managed_table_in_db_with_default_location;
+DESCRIBE DETAIL managed_table;
 
 -- COMMAND ----------
 
 -- MAGIC %md
 -- MAGIC 
 -- MAGIC 
--- MAGIC By default, managed tables in a schema without the location specified will be created in the **`dbfs:/user/hive/warehouse/<schema_name>.db/`** directory.
+-- MAGIC By default, **managed** tables in a schema without the location specified will be created in the **`dbfs:/user/hive/warehouse/<schema_name>.db/`** directory.
 -- MAGIC 
--- MAGIC We can see that, as expected, the data and metadata for our Delta Table are stored in that location.
+-- MAGIC We can see that, as expected, the data and metadata for our table are stored in that location.
 
 -- COMMAND ----------
 
 -- MAGIC %python 
--- MAGIC table_name = "managed_table_in_db_with_default_location"
--- MAGIC tbl_location = spark.sql(f"DESCRIBE DETAIL {table_name}").first().location
+-- MAGIC tbl_location = spark.sql(f"DESCRIBE DETAIL managed_table").first().location
 -- MAGIC print(tbl_location)
 -- MAGIC 
 -- MAGIC files = dbutils.fs.ls(tbl_location)
@@ -133,14 +120,14 @@ DESCRIBE DETAIL managed_table_in_db_with_default_location;
 
 -- COMMAND ----------
 
-DROP TABLE managed_table_in_db_with_default_location;
+DROP TABLE managed_table;
 
 -- COMMAND ----------
 
 -- MAGIC %md
 -- MAGIC 
 -- MAGIC  
--- MAGIC Note the table's directory and its log and data files are deleted. Only the schema directory remains.
+-- MAGIC Note the table's directory and its log and data files are deleted. Only the schema (database) directory remains.
 
 -- COMMAND ----------
 
@@ -154,81 +141,8 @@ DROP TABLE managed_table_in_db_with_default_location;
 -- MAGIC %md
 -- MAGIC 
 -- MAGIC  
--- MAGIC We now create a table in the schema with custom location and insert data. 
--- MAGIC 
--- MAGIC Note that the schema must be provided because there is no data from which to infer the schema.
-
--- COMMAND ----------
-
-USE ${da.schema_name}_custom_location;
-
-CREATE OR REPLACE TABLE managed_table_in_db_with_custom_location (width INT, length INT, height INT);
-INSERT INTO managed_table_in_db_with_custom_location VALUES (3, 2, 1);
-SELECT * FROM managed_table_in_db_with_custom_location;
-
--- COMMAND ----------
-
--- MAGIC %md
--- MAGIC 
--- MAGIC  
--- MAGIC Again, we'll look at the description to find the table location.
-
--- COMMAND ----------
-
-DESCRIBE DETAIL managed_table_in_db_with_custom_location;
-
--- COMMAND ----------
-
--- MAGIC %md
--- MAGIC 
--- MAGIC  
--- MAGIC As expected, this managed table is created in the path specified with the **`LOCATION`** keyword during schema creation. As such, the data and metadata for the table are persisted in a directory here.
-
--- COMMAND ----------
-
--- MAGIC %python 
--- MAGIC table_name = "managed_table_in_db_with_custom_location"
--- MAGIC tbl_location = spark.sql(f"DESCRIBE DETAIL {table_name}").first().location
--- MAGIC print(tbl_location)
--- MAGIC 
--- MAGIC files = dbutils.fs.ls(tbl_location)
--- MAGIC display(files)
-
--- COMMAND ----------
-
--- MAGIC %md
--- MAGIC 
--- MAGIC  
--- MAGIC Let's drop the table.
-
--- COMMAND ----------
-
-DROP TABLE managed_table_in_db_with_custom_location;
-
--- COMMAND ----------
-
--- MAGIC %md
--- MAGIC 
--- MAGIC  
--- MAGIC Note the table's folder and the log file and data file are deleted.  
--- MAGIC   
--- MAGIC Only the schema location remains
-
--- COMMAND ----------
-
--- MAGIC %python
--- MAGIC schema_custom_location = spark.sql(f"DESCRIBE SCHEMA {DA.schema_name}_custom_location").collect()[3].database_description_value
--- MAGIC print(schema_custom_location)
--- MAGIC 
--- MAGIC dbutils.fs.ls(schema_custom_location)
-
--- COMMAND ----------
-
--- MAGIC %md
--- MAGIC 
--- MAGIC  
--- MAGIC ## Tables
--- MAGIC We will create an external (unmanaged) table from sample data. 
+-- MAGIC ## External Tables
+-- MAGIC Next, we will create an **external** (unmanaged) table from sample data. 
 -- MAGIC 
 -- MAGIC The data we are going to use are in CSV format. We want to create a Delta table with a **`LOCATION`** provided in the directory of our choice.
 
@@ -286,20 +200,17 @@ DROP TABLE external_table;
 
 -- MAGIC %md
 -- MAGIC 
--- MAGIC  
 -- MAGIC ## Clean up
--- MAGIC Drop both schemas.
+-- MAGIC Drop the schema.
 
 -- COMMAND ----------
 
 DROP SCHEMA ${da.schema_name}_default_location CASCADE;
-DROP SCHEMA ${da.schema_name}_custom_location CASCADE;
 
 -- COMMAND ----------
 
 -- MAGIC %md
 -- MAGIC 
--- MAGIC  
 -- MAGIC Run the following cell to delete the tables and files associated with this lesson.
 
 -- COMMAND ----------
@@ -310,7 +221,7 @@ DROP SCHEMA ${da.schema_name}_custom_location CASCADE;
 -- COMMAND ----------
 
 -- MAGIC %md-sandbox
--- MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
+-- MAGIC &copy; 2023 Databricks, Inc. All rights reserved.<br/>
 -- MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 -- MAGIC <br/>
 -- MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>

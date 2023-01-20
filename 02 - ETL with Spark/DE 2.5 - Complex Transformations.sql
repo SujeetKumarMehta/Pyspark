@@ -10,7 +10,7 @@
 -- MAGIC %md
 -- MAGIC 
 -- MAGIC 
--- MAGIC # Transforming Complex Types
+-- MAGIC # Complex Transformations
 -- MAGIC 
 -- MAGIC Querying tabular data stored in the data lakehouse with Spark SQL is easy, efficient, and fast.
 -- MAGIC 
@@ -67,7 +67,12 @@ SELECT * FROM events_strings
 
 -- COMMAND ----------
 
--- MAGIC %md ## Work with Nested Data
+-- MAGIC %md
+-- MAGIC ## Manipulate Complex Types
+
+-- COMMAND ----------
+
+-- MAGIC %md ### Work with Nested Data
 -- MAGIC 
 -- MAGIC The code cell below queries the converted strings to view an example JSON object without null fields (we'll need this for the next section).
 -- MAGIC 
@@ -128,7 +133,7 @@ SELECT * FROM parsed_events
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC ## Manipulate Arrays
+-- MAGIC ### Manipulate Arrays
 -- MAGIC 
 -- MAGIC Spark SQL has a number of functions for manipulating array data, including the following:
 -- MAGIC - **`explode()`** separates the elements of an array into multiple rows; this creates a new row for each element.
@@ -191,7 +196,13 @@ GROUP BY user_id
 
 -- MAGIC %md
 -- MAGIC  
--- MAGIC ## Join Tables
+-- MAGIC ## Combine and Reshape Data
+
+-- COMMAND ----------
+
+-- MAGIC %md
+-- MAGIC  
+-- MAGIC ### Join Tables
 -- MAGIC 
 -- MAGIC Spark SQL supports standard **`JOIN`** operations (inner, outer, left, right, anti, cross, semi).  
 -- MAGIC Here we join the exploded events dataset with a lookup table to grab the standard printed item name.
@@ -226,7 +237,7 @@ SELECT * FROM item_purchases
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC ## Pivot Tables
+-- MAGIC ### Pivot Tables
 -- MAGIC 
 -- MAGIC We can use **`PIVOT`** to view data from different perspectives by rotating unique values in a specified pivot column into multiple columns based on an aggregate function.
 -- MAGIC - The **`PIVOT`** clause follows the table name or subquery specified in a **`FROM`** clause, which is the input for the pivot table.
@@ -288,7 +299,7 @@ PIVOT (
 -- COMMAND ----------
 
 -- MAGIC %md-sandbox
--- MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
+-- MAGIC &copy; 2023 Databricks, Inc. All rights reserved.<br/>
 -- MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 -- MAGIC <br/>
 -- MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>

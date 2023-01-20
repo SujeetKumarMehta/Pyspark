@@ -107,7 +107,7 @@ SELECT DISTINCT(*) FROM users_dirty
 -- COMMAND ----------
 
 -- MAGIC %python
--- MAGIC usersDF.distinct().count()
+-- MAGIC usersDF.distinct().display()
 
 -- COMMAND ----------
 
@@ -256,18 +256,6 @@ FROM (
 
 -- COMMAND ----------
 
--- MAGIC %python
--- MAGIC from pyspark.sql.functions import date_format, regexp_extract
--- MAGIC 
--- MAGIC display(dedupedDF
--- MAGIC     .withColumn("first_touch", (col("user_first_touch_timestamp") / 1e6).cast("timestamp"))
--- MAGIC     .withColumn("first_touch_date", date_format("first_touch", "MMM d, yyyy"))
--- MAGIC     .withColumn("first_touch_time", date_format("first_touch", "HH:mm:ss"))
--- MAGIC     .withColumn("email_domain", regexp_extract("email", "(?<=@).+", 0))
--- MAGIC )
-
--- COMMAND ----------
-
 -- MAGIC %md
 -- MAGIC 
 -- MAGIC  
@@ -281,7 +269,7 @@ FROM (
 -- COMMAND ----------
 
 -- MAGIC %md-sandbox
--- MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
+-- MAGIC &copy; 2023 Databricks, Inc. All rights reserved.<br/>
 -- MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
 -- MAGIC <br/>
 -- MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="https://help.databricks.com/">Support</a>

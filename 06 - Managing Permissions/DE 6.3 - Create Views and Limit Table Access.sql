@@ -103,12 +103,13 @@ SELECT * FROM gold.heartrate_avgs
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC ### Grant USAGE privilege on database
+-- MAGIC ### Grant USAGE privilege on catalog and database
 -- MAGIC 
--- MAGIC As with tables, **USAGE** privilege is also required on the database in order to query the view.
+-- MAGIC As with tables, **USAGE** privilege is also required on the catalog and database in order to query the view.
 
 -- COMMAND ----------
 
+-- GRANT USAGE ON CATALOG ${DA.catalog_name} TO `analysts`;
 -- GRANT USAGE ON DATABASE gold TO `analysts`
 
 -- COMMAND ----------
@@ -130,14 +131,17 @@ SELECT * FROM gold.heartrate_avgs
 -- MAGIC %md
 -- MAGIC Notice that the query succeeds and the output is identical to the output above, as expected.
 -- MAGIC 
--- MAGIC Now replace **`gold_dailyavg`** with **`silver`** and re-run the query. Notice that the query now fails. This is because the user does not have **SELECT** privilege on the **silver** table.
--- MAGIC 
--- MAGIC Recall though, that **gold_dailyavg** is a view that selects from **silver**. How then, can the query on **gold_dailyavg** succeed? Unity Catalog allows the query to pass because the *owner* of that view has **SELECT** privilege on **silver**. This is an important property since it allows us to implement views that can filter or mask rows or columns of a table, without allowing direct access to the underlying table we are trying to protect. We will see this mechanism in action next.
+-- MAGIC Now replace **`gold.heartrate_avgs`** with **`silver.heartrate_device`** and re-run the query. Notice that the query now fails. This is because the user does not have **SELECT** privilege on the **`silver.heartrate_device`** table.
 
 -- COMMAND ----------
 
 -- MAGIC %python
 -- MAGIC print(f"SELECT * FROM silver.heartrate_device ")
+
+-- COMMAND ----------
+
+-- MAGIC %md 
+-- MAGIC Recall though, that **`heartrate_avgs`** is a view that selects from **`heartrate_device`**. How then, can the query on **`heartrate_avgs`** succeed? Unity Catalog allows the query to pass because the *owner* of that view has **SELECT** privilege on **`silver.heartrate_device`**. This is an important property since it allows us to implement views that can filter or mask rows or columns of a table, without allowing direct access to the underlying table we are trying to protect. We will see this mechanism in action next.
 
 -- COMMAND ----------
 

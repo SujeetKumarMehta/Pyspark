@@ -158,6 +158,11 @@ DA.client.jobs().delete_by_id(job_id)
 
 # COMMAND ----------
 
+# Enable users to create catalogs for the UC components of the course
+spark.sql("GRANT CREATE CATALOG ON METASTORE TO `account users`;")
+
+# COMMAND ----------
+
 print(f"Setup completed {dbgems.clock_stopped(setup_start)}")
 
 # COMMAND ----------

@@ -291,7 +291,15 @@ SELECT * FROM agg_heartrate
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC For us, this yields unfiltered output since we are not a member of the *analysts* group. Now, revisit the Databricks SQL session and rerun the query on the *gold* view as an analyst. We will see that the *mrn* and *name* colum values have been redacted.
+-- MAGIC For us, this yields unfiltered output since we are not a member of the *analysts* group. 
+-- MAGIC 
+-- MAGIC Now, revisit the Databricks SQL session and rerun the query on the *gold* view as an analyst. Run the cell below to generate this query. 
+-- MAGIC 
+-- MAGIC We will see that the *mrn* and *name* colum values have been redacted.
+
+-- COMMAND ----------
+
+SELECT "SELECT * FROM ${DA.my_new_catalog}.example.agg_heartrate" AS Query
 
 -- COMMAND ----------
 

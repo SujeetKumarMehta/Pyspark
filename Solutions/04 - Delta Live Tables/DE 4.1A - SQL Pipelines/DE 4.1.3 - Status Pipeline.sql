@@ -12,7 +12,7 @@
 -- MAGIC 
 -- MAGIC Now that we've gone through the process of configuring and running a pipeline with 2 notebooks, we'll simulate developing and adding a 3rd notebook.
 -- MAGIC 
--- MAGIC **DON'T PANIC!**
+-- MAGIC **DON'T PANIC!** Things are about to break.
 -- MAGIC 
 -- MAGIC The code provided below contains some intentional, small syntax errors. By troubleshooting these errors, you'll learn how to iteratively develop DLT code and identify errors in your syntax.
 -- MAGIC 

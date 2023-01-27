@@ -19,12 +19,6 @@ DA.conclude_setup()
 
 # COMMAND ----------
 
-# ANSWER
-try: DA.client.scim.groups.create(ANALYSTS_ROLE_NAME)
-except: pass # Ignoring if it already exists
-
-# COMMAND ----------
-
 current_catalog = spark.sql("SELECT current_catalog() as catalog").first()[0]
 
 DA.my_new_catalog = DA.to_catalog_name(username=DA.username, lesson_name=None)

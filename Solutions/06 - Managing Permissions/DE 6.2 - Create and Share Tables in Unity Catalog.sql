@@ -161,7 +161,8 @@ SELECT * FROM patient_gold.heartrate_stats;
 
 -- COMMAND ----------
 
--- GRANT USAGE ON SCHEMA patient_gold TO `analysts`
+-- GRANT USAGE ON CATALOG ${DA.catalog_name} TO analysts;
+-- GRANT USAGE ON SCHEMA patient_gold TO analysts
 
 -- COMMAND ----------
 
@@ -208,7 +209,7 @@ SHOW TABLES IN ${DA.catalog_name}.patient_silver;
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC Currently we see the **USAGE** grant we set up earlier.
+-- MAGIC There are currently no grants on this schema. 
 -- MAGIC 
 -- MAGIC Now let's examine the catalog.
 
@@ -219,7 +220,7 @@ SHOW TABLES IN ${DA.catalog_name}.patient_silver;
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC Notice that **USAGE** is granted to **account users** already, which is why we did not explicitly have to grant **USAGE** on the catalog.
+-- MAGIC Currently we see the **USAGE** grant we set up earlier.
 
 -- COMMAND ----------
 

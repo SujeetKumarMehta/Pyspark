@@ -20,12 +20,6 @@ DA.conclude_setup()
 
 # COMMAND ----------
 
-# ANSWER
-try: DA.client.scim.groups.create(ANALYSTS_ROLE_NAME)
-except: pass # Ignoring if it already exists
-
-# COMMAND ----------
-
 # Create user-specific schema name here (lesson config settings above creates user-specific catalog with DA.schema_name as "default")
 DA.my_schema_name = DA.to_schema_name(username=DA.username, course_code=DA.course_config.course_code, lesson_name=DA.lesson_config.name) 
 

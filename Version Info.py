@@ -11,8 +11,8 @@
 # MAGIC # Project Information
 # MAGIC 
 # MAGIC * Name: **Data Engineer Learning Path**
-# MAGIC * Version:  **1.1.0**
-# MAGIC * Built On: **Jan 20, 2023 at 03:42:04 UTC**
+# MAGIC * Version:  **1.1.1**
+# MAGIC * Built On: **Jan 27, 2023 at 17:04:18 UTC**
 
 # COMMAND ----------
 

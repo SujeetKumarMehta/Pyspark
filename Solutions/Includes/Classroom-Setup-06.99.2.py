@@ -51,10 +51,4 @@ _create_silver_managed()
 
 DA.conclude_setup()
 
-# COMMAND ----------
-
-# ANSWER
-try: DA.client.scim.groups.create(ANALYSTS_ROLE_NAME)
-except: pass # Ignoring if it already exists
-
 

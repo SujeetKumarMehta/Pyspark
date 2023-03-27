@@ -10,9 +10,9 @@
 # MAGIC %md
 # MAGIC # Project Information
 # MAGIC 
-# MAGIC * Name: **Data Engineer Learning Path**
-# MAGIC * Version:  **1.1.1**
-# MAGIC * Built On: **Jan 27, 2023 at 17:04:18 UTC**
+# MAGIC * Name: **Data Engineering with Databricks**
+# MAGIC * Version:  **3.1.2**
+# MAGIC * Built On: **Mar 2, 2023 at 03:56:53 UTC**
 
 # COMMAND ----------
 
